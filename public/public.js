@@ -11,11 +11,35 @@ const actions = {
   'right-backwards': () => sendMessage({ type: 'drive', motor: 'right', value: -1 }),
 }
 
-document.addEventListener('click', ({ target }) => {
-  if (!target.dataset || !target.dataset.action) return
-  if (!(target.dataset.action in actions)) return
-  actions[target.dataset.action]()
-}, false)
+if(window.matchMedia("(pointer: coarse)").matches) {
+  bindEvent('#left-forward', 'touchstart', 'left-forward')
+  bindEvent('#left-forward', 'touchend', 'left-off')
+  
+  bindEvent('#left-backwards', 'touchstart', 'left-backwards')
+  bindEvent('#left-backwards', 'touchend', 'left-off')
+
+  bindEvent('#right-forward', 'touchstart', 'right-forward')
+  bindEvent('#right-forward', 'touchend', 'right-off')
+
+  bindEvent('#right-backwards', 'touchstart', 'right-backwards')
+  bindEvent('#right-backwards', 'touchend', 'right-off')
+} else {
+  bindEvent('#left-forward', 'mousedown', 'left-forward')
+  bindEvent('#left-forward', 'mouseup', 'left-off')
+
+
+  bindEvent('#left-backwards', 'mousedown', 'left-backwards')
+  bindEvent('#left-backwards', 'mouseup', 'left-off')
+  
+  
+  bindEvent('#right-forward', 'mousedown', 'right-forward')
+  bindEvent('#right-forward', 'mouseup', 'right-off')
+  
+  bindEvent('#right-backwards', 'mousedown', 'right-backwards')
+  bindEvent('#right-backwards', 'mouseup', 'right-off')
+}
+
+document.querySelector('#off').addEventListener('click', actions['off'])
 
 websocket.addEventListener('message', msg => {
   console.log(msg)
@@ -23,4 +47,8 @@ websocket.addEventListener('message', msg => {
 
 function sendMessage(data) {
   websocket.send(JSON.stringify(data))
+}
+
+function bindEvent(selector, event, action) {
+  document.querySelector(selector).addEventListener(event, actions[action])
 }

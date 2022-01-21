@@ -23,6 +23,7 @@ body {
 .video {
   flex: 1;
   border: 2px solid black;
+  padding: 1rem;
 }
 
 .controls {
@@ -46,6 +47,7 @@ body {
 }
 
 .btn {
+  user-select: none;
   padding: 1rem;
 }
 
