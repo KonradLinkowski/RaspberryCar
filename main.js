@@ -4,21 +4,53 @@ const { join } = require('path')
 const { Gpio } = require('onoff')
 
 const standBy = new Gpio(17, 'out')
-const ain1 = new Gpio(19, 'out')
-const ain2 = new Gpio(26, 'out')
+const ain1 = new Gpio(26, 'out')
+const ain2 = new Gpio(19, 'out')
 const bin1 = new Gpio(16, 'out')
 const bin2 = new Gpio(20, 'out')
 
-app.get('/on', (req, res) => {
-  standBy.writeSync(1)
+standBy.writeSync(1)
+
+app.get('/left-forward', (req, res) => {
+  ain2.writeSync(0)
   ain1.writeSync(1)
+  res.redirect('/')
+})
+
+app.get('/left-backwards', (req, res) => {
+  ain1.writeSync(0)
+  ain2.writeSync(1)
+  res.redirect('/')
+})
+
+app.get('/left-off', (req, res) => {
+  ain1.writeSync(0)
+  ain2.writeSync(0)
+  res.redirect('/')
+})
+
+app.get('/right-forward', (req, res) => {
+  bin2.writeSync(0)
+  bin1.writeSync(1)
+  res.redirect('/')
+})
+
+app.get('/right-backwards', (req, res) => {
+  bin1.writeSync(0)
   bin2.writeSync(1)
-  res.sendStatus('/')
+  res.redirect('/')
+})
+
+app.get('/right-off', (req, res) => {
+  bin1.writeSync(0)
+  bin2.writeSync(0)
+  res.redirect('/')
 })
 
 app.get('/off', (req, res) => {
-  standBy.writeSync(0)
   ain1.writeSync(0)
+  ain2.writeSync(0)
+  bin1.writeSync(0)
   bin2.writeSync(0)
   res.redirect('/')
 })
