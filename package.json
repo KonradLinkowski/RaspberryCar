@@ -4,7 +4,9 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node main.js",
+    "start": "concurrently --kill-others \"npm run drive\" \"npm run camera\"",
+    "drive": "cross-env NODE_ENV=production node main.js",
+    "camera":  "python3 camera.py",
     "dev": "node main.js"
   },
   "author": "",
@@ -14,5 +16,8 @@
     "express": "^4.17.2",
     "express-ws": "^5.0.2",
     "onoff": "^6.0.3"
+  },
+  "devDependencies": {
+    "concurrently": "^7.0.0"
   }
 }

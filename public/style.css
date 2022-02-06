@@ -17,13 +17,22 @@ body {
   grid-area: center;
   display: flex;
   flex-direction: column;
-  max-height: 100vh;
+  max-height: 80vh;
 }
 
 .video {
   flex: 1;
   border: 2px solid black;
   padding: 1rem;
+  object-fit: contain;
+  max-height: 100%;
+}
+
+.video-img {
+  margin: 0 auto;
+  display: block;
+  max-width: 100%;
+  max-height: 100%;
 }
 
 .controls {
